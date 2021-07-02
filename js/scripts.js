@@ -41,12 +41,20 @@ function operate(operator, a, b) {
     }
 }
 
+function fullDisplay() {
+    console.log(display.textContent.length >= 14);
+    return display.textContent.length >= 14;
+}
+
 function typeToDisplay(str) {
-    if (display.textContent == "0") {
-        display.textContent = str;
-    }
-    else {
-        display.textContent += str;
+    console.log(fullDisplay());
+    if (!fullDisplay()) {
+        if (display.textContent == "0") {
+            display.textContent = str;
+        }
+        else {
+            display.textContent += str;
+        }
     }
 }
 
