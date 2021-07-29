@@ -1,5 +1,10 @@
 //Variables
 const display = document.querySelector("#displayText");
+const DISPLAY_LENGTH = 14;
+let operandA = 0;
+let operandB = 0;
+let calcValue = 0;
+let operationMode = "entry";
 
 //Takes two inputs, returns the sum
 function add(a, b) {
@@ -41,27 +46,48 @@ function operate(operator, a, b) {
     }
 }
 
-function fullDisplay() {
-    console.log(display.textContent.length >= 14);
-    return display.textContent.length >= 14;
-}
-
+//Updates the display text
 function typeToDisplay(str) {
-    console.log(fullDisplay());
-    if (!fullDisplay()) {
-        if (display.textContent == "0") {
-            display.textContent = str;
-        }
-        else {
-            display.textContent += str;
-        }
+    if (display.textContent == "0" && operationMode == "entry") {
+        display.textContent = str;
+    }
+    else {
+        display.textContent += str;
     }
 }
 
-const num = document.querySelectorAll(".number");
+//checks to see if the display is full
+function fullDisplay() {
+    return display.textContent.length >= DISPLAY_LENGTH;
+}
 
+function chooseOperator(str) {
+    console.log(str);
+    operationMode = str;
+    operandA = display.textContent;
+}
+
+
+//Event Listeners
+const num = document.querySelectorAll(".number");
 num.forEach(item => {
     item.addEventListener('click', () => {
         typeToDisplay(item.textContent.trim());
+        console.log(operandA);
     });
 });
+
+const equals = document.querySelector("#equals");
+equals.addEventListener('click', () => {
+    switch (operationMode) {
+        case "addition":
+            operate("addition", a, b);
+    }
+})
+
+const operators = document.querySelectorAll(".operation");
+operators.forEach(item => {
+    item.addEventListener('click', () => {
+        chooseOperator(item.id);
+    });
+})
