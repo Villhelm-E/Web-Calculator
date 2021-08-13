@@ -59,7 +59,7 @@ function typeToDisplay(str) {
 }
 
 function clearDisplay(){
-    display.textContent = "";
+    display.textContent = "0";
 }
 
 //checks to see if the display is full
@@ -123,4 +123,16 @@ operators.forEach(item => {
         chooseOperator(item.id);
         displayValue = display.textContent.trim();
     });
+})
+
+const clearBtn = document.querySelector("#clear");
+clear.addEventListener('click', () => {
+    operandA = 0;
+    operandB = 0;
+    calcValue = 0;
+    operationMode = "entry";
+    operatorMem = "";
+    displayValue = 0;
+
+    clearDisplay();
 })
