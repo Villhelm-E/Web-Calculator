@@ -10,22 +10,27 @@ let displayValue = 0;
 
 //Takes two inputs, returns the sum
 function add(a, b) {
-    return +a + +b;
+    return fullDisplay(+a + +b);
 }
 
 //Takes two inputs, returns the difference of a - b
 function subtract(a, b) {
-    return +a - +b;
+    return fullDisplay(+a - +b);
 }
 
 //Takes two inputs, returns the product
 function multiply(a, b) {
-    return +a * +b;
+    return fullDisplay(+a * +b);
 }
 
 //Takes two inputs, returns the quotient of a / b
 function divide(a, b) {
-    return +a / +b;
+    if (+a / +b == Infinity) {
+        return "Undefined";
+    }
+    else {
+       return fullDisplay(+a / +b); 
+    }
 }
 
 //Takes three inputs, the first input choose a mathematical operation to perform on the other two inputs
@@ -62,9 +67,23 @@ function clearDisplay(){
     display.textContent = "0";
 }
 
-//checks to see if the display is full
-function fullDisplay() {
-    return display.textContent.length >= DISPLAY_LENGTH;
+//Rounds the output to fit within the display
+function fullDisplay(num) {
+    
+    //Algorithm for rounding to a specific precision
+    //save precision
+    let len = 10 ** (DISPLAY_LENGTH -2);
+    
+    //Multiply by 10 raised to the precision
+    let roundMult = num * len;
+    
+    //round to integer
+    let roundInt = Math.round(roundMult);
+    
+    //divide integer by the precision
+    let roundDivide = roundInt / len;
+
+    return roundDivide;
 }
 
 function chooseOperator(str) {
@@ -95,10 +114,7 @@ num.forEach(item => {
 const equals = document.querySelector("#equals");
 equals.addEventListener('click', () => {
     if (operationMode == "entry") {
-        console.log(equals.textContent)
         operandB = display.textContent.trim();
-        console.log(operandA);
-        console.log(operandB);
 
         switch (operatorMem){
             case "addition":
@@ -110,7 +126,7 @@ equals.addEventListener('click', () => {
             case "multiply":
                 display.textContent = multiply(operandA, operandB);
                 break;
-            case "division":
+            case "divide":
                 display.textContent = divide(operandA, operandB);
                 break;
         }
