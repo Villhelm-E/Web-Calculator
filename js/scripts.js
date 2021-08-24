@@ -33,36 +33,19 @@ function divide(a, b) {
     }
 }
 
-//Takes three inputs, the first input choose a mathematical operation to perform on the other two inputs
-function operate(operator, a, b) {
-    switch(operator) {
-        case "&plus;":
-            add(a, b);
-            break;
-        case "&minus;":
-            subtract(a, b);
-            break;
-        case "&times;":
-            multiply(a, b);
-            break;
-        case "&divide;":
-            divide(a, b);
-            break;
-        default:
-            break;
-    }
-}
-
 //Updates the display text
 function typeToDisplay(str) {
+    //use case where user is entering brand new data
     if (display.textContent == "0" && operationMode == "entry") {
         display.textContent = str;
     }
+    //use case where user is continuing to enter data
     else {
         display.textContent += str;
     }
 }
 
+//resets the display to 0
 function clearDisplay(){
     display.textContent = "0";
 }
@@ -86,6 +69,7 @@ function fullDisplay(num) {
     return roundDivide;
 }
 
+//Saves the chosen operator and the current value on display to memory
 function chooseOperator(str) {
     operationMode = str;
     operatorMem = str;
@@ -101,6 +85,7 @@ num.forEach(item => {
         if (operationMode == "entry") {
             typeToDisplay(item.textContent.trim());
         }
+        //if user presses an operator, save the current value to memory and clear the display
         else {
             operandA = display.textContent.trim();
             clearDisplay()
@@ -115,7 +100,7 @@ const equals = document.querySelector("#equals");
 equals.addEventListener('click', () => {
     if (operationMode == "entry") {
         operandB = display.textContent.trim();
-
+        //feeds the saved values in memory to the appropriate function user pressed
         switch (operatorMem){
             case "addition":
                 display.textContent = add(operandA, operandB);
@@ -136,6 +121,7 @@ equals.addEventListener('click', () => {
 const operators = document.querySelectorAll(".operation");
 operators.forEach(item => {
     item.addEventListener('click', () => {
+        //forwards the user's input to the appropriate operator function
         chooseOperator(item.id);
         displayValue = display.textContent.trim();
     });
@@ -143,6 +129,7 @@ operators.forEach(item => {
 
 const clearBtn = document.querySelector("#clear");
 clear.addEventListener('click', () => {
+    //clear every variable and reset the display
     operandA = 0;
     operandB = 0;
     calcValue = 0;
