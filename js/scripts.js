@@ -3,7 +3,6 @@ const display = document.querySelector("#displayText");
 const DISPLAY_LENGTH = 14;
 let operandA = 0;
 let operandB = 0;
-let calcValue = 0;
 let operationMode = "entry";
 let operatorMem = ""
 let displayValue = 0;
@@ -116,7 +115,7 @@ equals.addEventListener('click', () => {
                 break;
         }
     }
-})
+});
 
 const operators = document.querySelectorAll(".operation");
 operators.forEach(item => {
@@ -125,17 +124,16 @@ operators.forEach(item => {
         chooseOperator(item.id);
         displayValue = display.textContent.trim();
     });
-})
+});
 
 const clearBtn = document.querySelector("#clear");
 clear.addEventListener('click', () => {
     //clear every variable and reset the display
     operandA = 0;
     operandB = 0;
-    calcValue = 0;
     operationMode = "entry";
     operatorMem = "";
     displayValue = 0;
 
     clearDisplay();
-})
+});
