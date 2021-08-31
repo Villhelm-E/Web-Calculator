@@ -75,6 +75,16 @@ function chooseOperator(str) {
     operandA = display.textContent.trim();
 }
 
+//removes the last character from the display and updates globals accordingly
+function backspace() {
+    let str = display.textContent.trim();
+    if (str.substring(0,str.length - 1) == "") {
+        display.textContent = 0;
+    }
+    else {
+        display.textContent = str.substring(0,str.length - 1);
+    }
+}
 
 //Event Listeners
 const num = document.querySelectorAll(".number");
@@ -136,4 +146,10 @@ clear.addEventListener('click', () => {
     displayValue = 0;
 
     clearDisplay();
+});
+
+const backBtn = document.querySelector("#backspace");
+backBtn.addEventListener('click', () => {
+    //backspace a character
+    backspace();
 });
