@@ -137,7 +137,7 @@ operators.forEach(item => {
 });
 
 const clearBtn = document.querySelector("#clear");
-clear.addEventListener('click', () => {
+clearBtn.addEventListener('click', () => {
     //clear every variable and reset the display
     operandA = 0;
     operandB = 0;
