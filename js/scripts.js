@@ -77,12 +77,36 @@ function chooseOperator(str) {
 
 //removes the last character from the display and updates globals accordingly
 function backspace() {
-    let str = display.textContent.trim();
-    if (str.substring(0,str.length - 1) == "") {
-        display.textContent = 0;
+    //normal backspace when user is typing a number
+    if (operationMode == "entry") {
+        //save display value to variable
+        let str = display.textContent.trim();
+        
+        //if there's only one digit on display
+        if (str.substring(0,str.length - 1) == "") {
+            display.textContent = 0;
+        }
+        //truncate last digit on display
+        else {
+            display.textContent = str.substring(0,str.length - 1);
+        }
     }
+    //clear display and memory after user has evaluated a calculation
+    else if (operationMode == "equals") {
+        //clear every variable and reset the display
+        operandA = 0;
+        operandB = 0;
+        operationMode = "entry";
+        operatorMem = "";
+        displayValue = 0;
+
+        clearDisplay();
+    }
+    //Forget the operation if user presses backspace without a second operand
     else {
-        display.textContent = str.substring(0,str.length - 1);
+        //Forget the operation the user entered and go back to entry mode
+        operationMode = "entry";
+        operationMem = "";
     }
 }
 
