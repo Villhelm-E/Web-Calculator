@@ -1,5 +1,6 @@
 //Variables
 const display = document.querySelector("#displayText");
+const OpDisText = document.querySelector("#OpDisText");
 const DISPLAY_LENGTH = 14;
 let operandA = 0;
 let operandB = 0;
@@ -102,11 +103,31 @@ function backspace() {
 
         clearDisplay();
     }
-    //Forget the operation if user presses backspace without a second operand
+    //Handle behavior where the user has pressed an operation button but hasn't chosen a second number
     else {
         //Forget the operation the user entered and go back to entry mode
+        OpDisText.textContent = "";
         operationMode = "entry";
         operationMem = "";
+    }
+}
+
+//This function takes the item id of an operator button and
+//sets the operator display to the appropriate html entity
+function OperatorMarker(str) {
+    switch (str) {
+        case "multiply":
+            OpDisText.innerHTML = '&times;';
+            break;
+        case "divide":
+            OpDisText.innerHTML = '&div;';
+            break;
+        case "addition":
+            OpDisText.innerHTML = '&plus;';
+            break;
+        case "subtraction":
+            OpDisText.innerHTML = '&minus;';
+            break;
     }
 }
 
@@ -125,7 +146,6 @@ num.forEach(item => {
             operationMode = "entry";
             typeToDisplay(item.textContent.trim())
         }
-        
     });
 });
 
@@ -148,6 +168,7 @@ equals.addEventListener('click', () => {
                 display.textContent = divide(operandA, operandB);
                 break;
         }
+        OpDisText.textContent = "";
     }
 });
 
@@ -157,6 +178,7 @@ operators.forEach(item => {
         //forwards the user's input to the appropriate operator function
         chooseOperator(item.id);
         displayValue = display.textContent.trim();
+        OperatorMarker(item.id.trim());
     });
 });
 
@@ -168,6 +190,8 @@ clearBtn.addEventListener('click', () => {
     operationMode = "entry";
     operatorMem = "";
     displayValue = 0;
+
+    OpDisText.textContent = "";
 
     clearDisplay();
 });
