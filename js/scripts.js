@@ -55,7 +55,7 @@ function fullDisplay(num) {
     
     //Algorithm for rounding to a specific precision
     //save precision
-    let len = 10 ** (DISPLAY_LENGTH -2);
+    let len = 10 ** (DISPLAY_LENGTH - 2);
     
     //Multiply by 10 raised to the precision
     let roundMult = num * len;
@@ -131,11 +131,26 @@ function OperatorMarker(str) {
     }
 }
 
+function DisablePeriod(){
+    //this will disable the period button... somehow...
+    
+    if (display.textContent.includes(".")) {
+        document.getElementById('period').style.pointerEvents = 'none';
+        console.log("disabling");
+    }
+    else {
+        document.getElementById('period').style.pointerEvents = 'auto';
+        console.log("enabling");
+    }
+}
+
+const period = document.querySelector("#period");
+period.addEventListener("click", DisablePeriod);
+
 //Event Listeners
 const num = document.querySelectorAll(".number");
 num.forEach(item => {
     item.addEventListener('click', () => {
-        
         if (operationMode == "entry") {
             typeToDisplay(item.textContent.trim());
         }
