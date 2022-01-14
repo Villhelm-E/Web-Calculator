@@ -61,7 +61,7 @@ h1 {
     flex-flow: wrap;
 }
 
-.number, .function, .operation {
+.number, .function, .operation, #equals {
     width: 150px;
     height: 160px;
     flex-direction: row;
@@ -96,10 +96,10 @@ h1 {
     line-height: 0px;
 }
 
-.operation {
+.operation, #equals {
     background-color: #3b405b;
 }
 
-.operation:hover {
+.operation:hover, #equals:hover {
     background-color: #545977;
 }

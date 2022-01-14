@@ -1,12 +1,19 @@
+//...............................
 //Variables
+//...............................
+
 const display = document.querySelector("#displayText");
 const OpDisText = document.querySelector("#OpDisText");
 const DISPLAY_LENGTH = 14;
 let operandA = 0;
 let operandB = 0;
 let operationMode = "entry";
-let operatorMem = ""
-let displayValue = 0;
+// let operatorMem = ""
+// let displayValue = 0;
+
+//...............................
+//Functions
+//...............................
 
 //Takes two inputs, returns the sum
 function add(a, b) {
@@ -33,9 +40,27 @@ function divide(a, b) {
     }
 }
 
+//Function The Odin Project told me to make
+function operate(operator, num1, num2) {
+    switch (operator) {
+        case "add":
+            return add(num1, num2);
+        case "subtract":
+            return subtract(num1, num2);
+        case "multiply":
+            return multiply(num1, num2);
+        case "divide":
+            return divide(num1 , num2);
+    }
+}
+
 //Updates the display text
 function typeToDisplay(str) {
     //use case where user is entering brand new data
+    console.log('%c BEGIN TYPETODISPLAY()', 'color:#daba55');
+    console.log("str = " + str);
+    console.log("typeToDisplay(" + display.textContent + ")");
+    
     if (display.textContent == "0" && operationMode == "entry") {
         display.textContent = str;
     }
@@ -43,11 +68,14 @@ function typeToDisplay(str) {
     else {
         display.textContent += str;
     }
+
+    console.log("typeToDisplay(" + display.textContent + ")");
 }
 
 //resets the display to 0
 function clearDisplay(){
     display.textContent = "0";
+    console.clear();
 }
 
 //Rounds the output to fit within the display
@@ -69,13 +97,6 @@ function fullDisplay(num) {
     return roundDivide;
 }
 
-//Saves the chosen operator and the current value on display to memory
-function chooseOperator(str) {
-    operationMode = str;
-    operatorMem = str;
-    operandA = display.textContent.trim();
-}
-
 //removes the last character from the display and updates globals accordingly
 function backspace() {
     //normal backspace when user is typing a number
@@ -93,13 +114,13 @@ function backspace() {
         }
     }
     //clear display and memory after user has evaluated a calculation
-    else if (operationMode == "equals") {
+    else if (operationMode == "entry") {
         //clear every variable and reset the display
         operandA = 0;
         operandB = 0;
         operationMode = "entry";
-        operatorMem = "";
-        displayValue = 0;
+        // operatorMem = "";
+        // displayValue = 0;
 
         clearDisplay();
     }
@@ -108,26 +129,7 @@ function backspace() {
         //Forget the operation the user entered and go back to entry mode
         OpDisText.textContent = "";
         operationMode = "entry";
-        operationMem = "";
-    }
-}
-
-//This function takes the item id of an operator button and
-//sets the operator display to the appropriate html entity
-function OperatorMarker(str) {
-    switch (str) {
-        case "multiply":
-            OpDisText.innerHTML = '&times;';
-            break;
-        case "divide":
-            OpDisText.innerHTML = '&div;';
-            break;
-        case "addition":
-            OpDisText.innerHTML = '&plus;';
-            break;
-        case "subtraction":
-            OpDisText.innerHTML = '&minus;';
-            break;
+        // operationMem = "";
     }
 }
 
@@ -147,53 +149,98 @@ function DisablePeriod(){
 const period = document.querySelector("#period");
 period.addEventListener("click", DisablePeriod);
 
+//...............................
 //Event Listeners
+//...............................
+
 const num = document.querySelectorAll(".number");
 num.forEach(item => {
     item.addEventListener('click', () => {
+        console.log('%c BEGIN .NUMBER', 'color:#bada55');
         if (operationMode == "entry") {
-            typeToDisplay(item.textContent.trim());
+            //enabled .operators
+            
+            //enable .equals
         }
         //if user presses an operator, save the current value to memory and clear the display
         else {
             operandA = display.textContent.trim();
-            clearDisplay()
-            operationMode = "entry";
-            typeToDisplay(item.textContent.trim())
+            // operationMode = "entry";
+            display.textContent = "";
         }
+
+        console.log("item.id = " + item.id);
+        console.log("operandA = " +  operandA);
+
+        typeToDisplay(item.textContent.trim())
     });
 });
 
 const equals = document.querySelector("#equals");
-equals.addEventListener('click', () => {
+equals.addEventListener('click', () => {    
+    console.log('%c BEGIN #EQUALS', 'color:#bada55');
+    
     if (operationMode == "entry") {
+        
+    }
+    else {
         operandB = display.textContent.trim();
-        //feeds the saved values in memory to the appropriate function user pressed
-        switch (operatorMem){
-            case "addition":
-                display.textContent = add(operandA, operandB);
-                break;
-            case "subtraction":
-                display.textContent = subtract(operandA, operandB);
-                break;
-            case "multiply":
-                display.textContent = multiply(operandA, operandB);
-                break;
-            case "divide":
-                display.textContent = divide(operandA, operandB);
-                break;
-        }
+        console.log("operationMode" + " " + operationMode)
+        console.log("operandA" + " " + operandA);
+        console.log("operandB" + " " + operandB);
+        console.log("display = " + display.textContent);
+        display.textContent = operate(operationMode, operandA, operandB);
         OpDisText.textContent = "";
+        operationMode = "entry";
+        console.log("operationMode = " + operationMode);
+        console.log("display = " + display.textContent);
     }
 });
 
 const operators = document.querySelectorAll(".operation");
 operators.forEach(item => {
     item.addEventListener('click', () => {
-        //forwards the user's input to the appropriate operator function
-        chooseOperator(item.id);
-        displayValue = display.textContent.trim();
-        OperatorMarker(item.id.trim());
+        console.log('%c BEGIN .OPERATION', 'color:#bada55');
+        console.log("item.id = " + item.id);
+        
+        if (operationMode == "entry") {
+            operandA = display.textContent.trim();
+            
+            operationMode = item.id.trim();
+            
+            switch (operationMode) {
+                case "multiply":
+                    OpDisText.innerHTML = '&times;';
+                    break;
+                case "divide":
+                    OpDisText.innerHTML = '&div;';
+                    break;
+                case "add":
+                    OpDisText.innerHTML = '&plus;';
+                    break;
+                case "subtract":
+                    OpDisText.innerHTML = '&minus;';
+                    break;
+            }
+        }
+        else {
+            operandB = display.textContent.trim();
+
+            operationMode = "entry";
+
+            display.textContent = operate(item.id, operandA, operandB);
+
+            OpDisText.textContent = "";
+        }
+        
+        //disable .operators
+        
+        //disable .equals
+
+        console.log("operandA = " + operandA);
+        console.log("operandB = " + operandB);
+        console.log("typeToDisplay(" + display.textContent + ")");
+
     });
 });
 
@@ -203,8 +250,8 @@ clearBtn.addEventListener('click', () => {
     operandA = 0;
     operandB = 0;
     operationMode = "entry";
-    operatorMem = "";
-    displayValue = 0;
+    // operatorMem = "";
+    // displayValue = 0;
 
     OpDisText.textContent = "";
 
