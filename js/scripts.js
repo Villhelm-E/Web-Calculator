@@ -8,8 +8,6 @@ const DISPLAY_LENGTH = 14;
 let operandA = 0;
 let operandB = 0;
 let operationMode = "entry";
-// let operatorMem = ""
-// let displayValue = 0;
 
 //...............................
 //Functions
@@ -119,8 +117,6 @@ function backspace() {
         operandA = 0;
         operandB = 0;
         operationMode = "entry";
-        // operatorMem = "";
-        // displayValue = 0;
 
         clearDisplay();
     }
@@ -250,8 +246,6 @@ clearBtn.addEventListener('click', () => {
     operandA = 0;
     operandB = 0;
     operationMode = "entry";
-    // operatorMem = "";
-    // displayValue = 0;
 
     OpDisText.textContent = "";
 
