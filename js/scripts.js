@@ -55,16 +55,25 @@ function operate(operator, num1, num2) {
 //Updates the display text
 function typeToDisplay(str) {
     //use case where user is entering brand new data
-    console.log('%c BEGIN TYPETODISPLAY()', 'color:#daba55');
+    console.log('%c TypeToDisplay()', 'color:#daba55');
     console.log("str = " + str);
     console.log("typeToDisplay(" + display.textContent + ")");
-    
-    if (display.textContent == "0" && operationMode == "entry") {
-        display.textContent = str;
-    }
-    //use case where user is continuing to enter data
-    else {
-        display.textContent += str;
+
+    switch (operationMode) {
+        case "entry":
+            if (display.textContent == "0") {
+                display.textContent = str;
+            }
+            //use case where user is continuing to enter data
+            else {
+                display.textContent += str;
+            }
+            
+            break;
+        case "operation":
+            break;
+        case "finalized":
+            break;
     }
 
     console.log("typeToDisplay(" + display.textContent + ")");
@@ -120,7 +129,8 @@ function backspace() {
 
         clearDisplay();
     }
-    //Handle behavior where the user has pressed an operation button but hasn't chosen a second number
+    //Handle behavior where the user has pressed an operation button but
+    //hasn't chosen a second number
     else {
         //Forget the operation the user entered and go back to entry mode
         OpDisText.textContent = "";
@@ -142,103 +152,123 @@ function DisablePeriod(){
     }
 }
 
-const period = document.querySelector("#period");
-period.addEventListener("click", DisablePeriod);
 
 //...............................
 //Event Listeners
 //...............................
 
+//Numbers
 const num = document.querySelectorAll(".number");
+
+//Number event listener
 num.forEach(item => {
     item.addEventListener('click', () => {
-        console.log('%c BEGIN .NUMBER', 'color:#bada55');
-        if (operationMode == "entry") {
-            //enabled .operators
-            
-            //enable .equals
-        }
-        //if user presses an operator, save the current value to memory and clear the display
-        else {
-            operandA = display.textContent.trim();
-            // operationMode = "entry";
-            display.textContent = "";
-        }
+        //Log
+        console.log('%c .NUM', 'color:#bada55');
+        console.log("operationMode = " + operationMode);
+        
+        //Modes
+        switch(operationMode) {
+            //Entry mode
+            case "entry":   
+                console.log('%c Entry Case', 'color:#EF1012');
+                console.log(item.textContent.trim());
+                typeToDisplay(item.textContent.trim());
+                break;
+            //Finalized mode
+            case "finalized":
+                console.log('%c Finalized Case', 'color:#EF1012');
+                
 
-        console.log("item.id = " + item.id);
-        console.log("operandA = " +  operandA);
-
-        typeToDisplay(item.textContent.trim())
+                
+                break;
+            //Operation mode
+            default:
+                console.log('%c Operation Case', 'color:#EF1012');
+                console.log("text content is " + item.textContent.trim());
+                operandA = display.textContent.trim();
+                display.textContent = typeToDisplay(item.textContent.trim());
+                break;
+        }
     });
 });
 
-const equals = document.querySelector("#equals");
-equals.addEventListener('click', () => {    
-    console.log('%c BEGIN #EQUALS', 'color:#bada55');
-    
-    if (operationMode == "entry") {
-        
-    }
-    else {
-        operandB = display.textContent.trim();
-        console.log("operationMode" + " " + operationMode)
-        console.log("operandA" + " " + operandA);
-        console.log("operandB" + " " + operandB);
-        console.log("display = " + display.textContent);
-        display.textContent = operate(operationMode, operandA, operandB);
-        OpDisText.textContent = "";
-        operationMode = "entry";
-        console.log("operationMode = " + operationMode);
-        console.log("display = " + display.textContent);
-    }
-});
-
+//Operations
 const operators = document.querySelectorAll(".operation");
+
+//Operations Event Listener
 operators.forEach(item => {
     item.addEventListener('click', () => {
-        console.log('%c BEGIN .OPERATION', 'color:#bada55');
+        //Log
+        console.log('%c .OPERATION', 'color:#bada55');
         console.log("item.id = " + item.id);
+        console.log("operationMode = " + operationMode)
         
-        if (operationMode == "entry") {
-            operandA = display.textContent.trim();
+        //Operation Mode
+        switch (operationMode) {
+            //Entry mode
+            case "entry":
+                console.log('%c Entry Case', 'color:#EF1012');
+                
+                operandA = display.textContent.trim();
+                operationMode = item.id.trim();
+                console.log("operationMode = " + operationMode)
+                OpDisText.innerHTML = item.textContent.trim();
             
-            operationMode = item.id.trim();
-            
-            switch (operationMode) {
-                case "multiply":
-                    OpDisText.innerHTML = '&times;';
-                    break;
-                case "divide":
-                    OpDisText.innerHTML = '&div;';
-                    break;
-                case "add":
-                    OpDisText.innerHTML = '&plus;';
-                    break;
-                case "subtract":
-                    OpDisText.innerHTML = '&minus;';
-                    break;
-            }
+                break;
+            //Operation mode
+            case "operation":
+                console.log('%c Operation Case', 'color:#EF1012');
+                
+                break;
+            //Finalized mode
+            case "finalized":
+                console.log('%c Finalized Case', 'color:#EF1012');
+                
+                operandA = display.textContent.trim();
+                operationMode = item.id.trim();
+                OpDisText.innerHTML = item.textContent.trim();
         }
-        else {
-            operandB = display.textContent.trim();
-
-            operationMode = "entry";
-
-            display.textContent = operate(item.id, operandA, operandB);
-
-            OpDisText.textContent = "";
-        }
-        
-        //disable .operators
-        
-        //disable .equals
-
-        console.log("operandA = " + operandA);
-        console.log("operandB = " + operandB);
-        console.log("typeToDisplay(" + display.textContent + ")");
-
     });
 });
+
+//Equals
+const equals = document.querySelector("#equals");
+
+//Equals Event Listener
+equals.addEventListener('click', () => {    
+    //Log
+    console.log('%c #EQUALS', 'color:#bada55');
+    console.log("operationMode = " + operationMode);
+    
+    //Operation mode
+    switch (operationMode) {
+        //Entry mode
+        case "entry":
+            console.log('%c Entry Case', 'color:#EF1012');
+            
+            operandB = display.textContent.trim();
+            display.textContent = operate(operationMode, operandA, operandB);
+            OpDisText.textContent = "";
+            operationMode = "entry";
+            break;
+        //Finalized mode
+        case "finalized":
+            console.log('%c Finalized Case', 'color:#EF1012');
+
+            break;
+        default:
+            console.log('%c Operation Case', 'color:#EF1012');
+
+            operandB = display.textContent.trim();
+            display.textContent = operate(operationMode, operandA, operandB);
+            OpDisText.textContent = "";
+            operationMode = "finalized";
+    }
+});
+
+const period = document.querySelector("#period");
+period.addEventListener("click", DisablePeriod());
 
 const clearBtn = document.querySelector("#clear");
 clearBtn.addEventListener('click', () => {
