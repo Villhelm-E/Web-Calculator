@@ -179,15 +179,20 @@ num.forEach(item => {
             case "finalized":
                 console.log('%c Finalized Case', 'color:#EF1012');
                 
-
+                //reset display and variables
+                //then just like entry mode
                 
                 break;
             //Operation mode
             default:
                 console.log('%c Operation Case', 'color:#EF1012');
+                operandB = item.textContent.trim();
                 console.log("text content is " + item.textContent.trim());
+                console.log("operandA was " + operandA);
                 operandA = display.textContent.trim();
-                display.textContent = typeToDisplay(item.textContent.trim());
+                console.log("now it's " + operandA);
+                display.textContent = operandB;
+//                operationMode = 'entry';
                 break;
         }
     });
@@ -210,7 +215,9 @@ operators.forEach(item => {
             case "entry":
                 console.log('%c Entry Case', 'color:#EF1012');
                 
+                console.log("operandA was " + operandA)
                 operandA = display.textContent.trim();
+                console.log("now it's " + operandA)
                 operationMode = item.id.trim();
                 console.log("operationMode = " + operationMode)
                 OpDisText.innerHTML = item.textContent.trim();
