@@ -180,7 +180,15 @@ num.forEach(item => {
                 console.log('%c Finalized Case', 'color:#EF1012');
                 
                 //reset display and variables
+                operandA = 0;
+                operandB = 0;
+                display.textContent = item.textContent.trim();
+                
                 //then just like entry mode
+                typeToDisplay(item.textContent.trim());
+
+                //switch to entry mode
+                operationMode = 'entry';
                 
                 break;
             //Operation mode
