@@ -135,6 +135,8 @@ num.forEach(item => {
                 break;
             case "finalized":
                 //change to entry mode
+                clearDisplay();
+
                 state = "entry";
 
                 //add number to display    
@@ -175,8 +177,9 @@ operators.forEach(item => {
 
                 break;
             case "finalized":
-                //do nothing
-                console.log("do nothing");
+                operandA = display.textContent.trim();
+                OpDisText.textContent = item.textContent.trim();
+                operator = item.id.trim();
                 break;
             default:
                 //do nothing
@@ -194,14 +197,19 @@ const equals = document.querySelector("#equals");
 equals.addEventListener('click', () => {    
     //Log
     console.log('%c #EQUALS', 'color:#bada55');
-    
+    operandB = display.textContent.trim();
     switch (state){
         case "entry":
             //
-            operate(operator, operandA, operandB);
+            console.log("entry");
+            display.textContent = operate(operator, operandA, operandB);
+            OpDisText.textContent = "";
+            operator = "";
+            state = "finalized";
             break;
         case "finalized":
-            //
+            //do nothing
+            console.log("do nothing");
             break;
         default:
             //
