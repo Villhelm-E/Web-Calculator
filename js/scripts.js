@@ -165,21 +165,27 @@ operators.forEach(item => {
 
         switch (state){
             case "entry":
-                //save operandA
-                operandA = display.textContent.trim();
-                console.log("operandA = "+operandA);
+                //alternative
+                //need to keep track of operandA and operandB
+                //if user enters 5 * 3 * for example, need to do the multiplication
 
-                //add operator to operator display
-                OpDisText.textContent = item.textContent.trim();
-
-                operator = item.id.trim();
-                state = "operating";
+                if (operandA != "") {
+                    operandB = display.textContent.trim();
+                    clearDisplay();
+                    typeToDisplay(operate(item.id, operandA, operandB));
+                }
+                else {
+                    console.log("state = entry");
+                    //save operandA
+                    operandA = display.textContent.trim();
+                    operator = item.id;
+                    OpDisText.textContent = item.textContent.trim();
+                    state = "operating";
+                }
 
                 break;
             case "finalized":
-                operandA = display.textContent.trim();
-                OpDisText.textContent = item.textContent.trim();
-                operator = item.id.trim();
+
                 break;
             default:
                 //do nothing
@@ -202,7 +208,8 @@ equals.addEventListener('click', () => {
         case "entry":
             //
             console.log("entry");
-            display.textContent = operate(operator, operandA, operandB);
+            clearDisplay();
+            typeToDisplay(operate(operator, operandA, operandB));
             OpDisText.textContent = "";
             operator = "";
             state = "finalized";
