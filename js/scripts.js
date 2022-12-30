@@ -165,7 +165,7 @@ num.forEach(item => {
 
         //Debugging
         vars = [
-            ["prevOperatr", prevOperator],
+            ["prevOperator", prevOperator],
             ["operator", operator],
             ["state", state],
             ["operandA", operandA],
@@ -245,7 +245,7 @@ operators.forEach(item => {
 
         //Debugging
         vars = [
-            ["prevOperatr", prevOperator],
+            ["prevOperator", prevOperator],
             ["operator", operator],
             ["state", state],
             ["operandA", operandA],
