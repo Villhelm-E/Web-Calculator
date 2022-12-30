@@ -8,7 +8,16 @@ const DISPLAY_LENGTH = 14;
 let operandA = "";
 let operandB = "";
 let operator = "";
+let prevOperator = "";
 let state = "finalized";
+
+let vars = [
+    ["prevOperatr", prevOperator],
+    ["operator", operator],
+    ["state", state],
+    ["operandA", operandA],
+    ["operandB", operandB]
+]
 
 //...............................
 //Functions
@@ -43,12 +52,16 @@ function divide(a, b) {
 function operate(operator, num1, num2) {
     switch (operator) {
         case "add":
+            console.log(num1 + "+" + num2);
             return add(num1, num2);
         case "subtract":
+            console.log(num1 + "-" + num2);
             return subtract(num1, num2);
         case "multiply":
+            console.log(num1 + "*" + num2);
             return multiply(num1, num2);
         case "divide":
+            console.log(num1 + "/" + num2);
             return divide(num1 , num2);
     }
 }
@@ -57,8 +70,6 @@ function operate(operator, num1, num2) {
 function typeToDisplay(str) {
     //use case where user is entering brand new data
     console.log('%c TypeToDisplay()', 'color:#daba55');
-    console.log("str = " + str);
-    console.log("Before: typeToDisplay(" + display.textContent + ")");
 
     if (display.textContent == "0" | state == "operating") {
         display.textContent = str;
@@ -66,7 +77,6 @@ function typeToDisplay(str) {
     else{
         display.textContent += str;
     }
-    console.log("After: typeToDisplay(" + display.textContent + ")");
 }
 
 //resets the display to 0
@@ -131,7 +141,8 @@ num.forEach(item => {
                 //add number to display    
                 console.log("pressed "+item.textContent.trim());
                 typeToDisplay(item.textContent.trim());
-                
+                //remember operator
+                prevOperator = operator;
                 break;
             case "finalized":
                 //change to entry mode
@@ -140,16 +151,28 @@ num.forEach(item => {
                 state = "entry";
 
                 //add number to display    
-                console.log("pressed "+item.textContent.trim());
+                console.log("pressed " + item.textContent.trim());
                 typeToDisplay(item.textContent.trim());
                 break;
             default:
                 //
                 state = "entry";
+                prevOperator = operator;
                 clearDisplay();
                 typeToDisplay(item.textContent.trim());
                 break;
         }
+
+        //Debugging
+        vars = [
+            ["prevOperatr", prevOperator],
+            ["operator", operator],
+            ["state", state],
+            ["operandA", operandA],
+            ["operandB", operandB]
+        ]
+
+        console.table(vars);
 
     });
 });
@@ -167,15 +190,42 @@ operators.forEach(item => {
             case "entry":
                 //alternative
                 //need to keep track of operandA and operandB
-                //if user enters 5 * 3 * for example, need to do the multiplication
+                //if user enters 5 * 3 - for example, need to do the multiplication
 
                 if (operandA != "") {
+                    //updates operator
+                    console.log("operator was " + operator);
+                    prevOperator = operator;
+                    console.log("prevOperator is now " + operator);
+                    operator = item.id;
+                    console.log("operator is now " + operator);
+
+                    //operandA gets replaced by operandA operate operandB
+                    console.log("operandB was " + operandB);
                     operandB = display.textContent.trim();
+                    console.log("operandB is now " + operandB);
+
+                    console.log("operandA was " + operandA);
+                    operandA = operate(prevOperator, operandA, operandB);
+                    console.log("operandA is now " + operandA);
+
+                    //update display
+                    console.log("clearing display");
                     clearDisplay();
-                    typeToDisplay(operate(item.id, operandA, operandB));
+
+                    console.log("updating Operator Display");
+                    OpDisText.textContent = item.textContent.trim();
+
+                    console.log("writing operandA to display");
+                    typeToDisplay(operandA);
+
+                    //change state
+                    console.log("updating state to 'operating'");
+                    state = "operating";
+
                 }
                 else {
-                    console.log("state = entry");
+                    console.log("state was entry");
                     //save operandA
                     operandA = display.textContent.trim();
                     operator = item.id;
@@ -193,6 +243,17 @@ operators.forEach(item => {
                 break;
         }
 
+        //Debugging
+        vars = [
+            ["prevOperatr", prevOperator],
+            ["operator", operator],
+            ["state", state],
+            ["operandA", operandA],
+            ["operandB", operandB]
+        ]
+
+        console.table(vars);
+
     });
 });
 
@@ -209,6 +270,7 @@ equals.addEventListener('click', () => {
             //
             console.log("entry");
             clearDisplay();
+            prevOperator = "";
             typeToDisplay(operate(operator, operandA, operandB));
             OpDisText.textContent = "";
             operator = "";
@@ -233,7 +295,7 @@ clearBtn.addEventListener('click', () => {
     //clear every variable and reset the display
     operandA = 0;
     operandB = 0;
-
+    prevOperator = "";
     OpDisText.textContent = "";
 
     clearDisplay();
