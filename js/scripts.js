@@ -295,6 +295,7 @@ clearBtn.addEventListener('click', () => {
     //clear every variable and reset the display
     operandA = 0;
     operandB = 0;
+    operator = "";
     prevOperator = "";
     OpDisText.textContent = "";
 
