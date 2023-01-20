@@ -4,7 +4,7 @@
 
 const display = document.querySelector("#displayText");
 const OpDisText = document.querySelector("#OpDisText");
-const DISPLAY_LENGTH = 14;
+const DISPLAY_LENGTH = 15;
 let operandA = "";
 let operandB = "";
 let operator = "";
@@ -235,7 +235,9 @@ operators.forEach(item => {
 
                 break;
             case "finalized":
-
+                operator = item.id;
+                OpDisText.textContent = item.textContent.trim();
+                state = "operating";
                 break;
             default:
                 //do nothing
@@ -275,6 +277,9 @@ equals.addEventListener('click', () => {
             OpDisText.textContent = "";
             operator = "";
             state = "finalized";
+            console.log("display says " + display.textContent.trim());
+            operandA = display.textContent.trim();
+            console.log("operandA is " + operandA);
             break;
         case "finalized":
             //do nothing
