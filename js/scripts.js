@@ -150,9 +150,14 @@ num.forEach(item => {
 
                 state = "entry";
 
+                //clear operands
+                operandA = "";
+                operandB = "";
+
                 //add number to display    
                 console.log("pressed " + item.textContent.trim());
                 typeToDisplay(item.textContent.trim());
+
                 break;
             default:
                 //
