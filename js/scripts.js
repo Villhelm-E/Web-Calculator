@@ -73,10 +73,15 @@ function typeToDisplay(str) {
 
     if (display.textContent == "0" | state == "operating") {
         display.textContent = str;
+        //handle numbers less than 1
+        if (display.textContent == ".") {
+            display.textContent = "0.";
+        }
     }
     else{
         display.textContent += str;
     }
+
 }
 
 //resets the display to 0
@@ -110,7 +115,7 @@ function backspace() {
 }
 
 function DisablePeriod(){
-    //this will disable the period button... somehow...
+    //this will disable or enable the period button to avoid decimal issues
     
     if (display.textContent.includes(".")) {
         document.getElementById('period').style.pointerEvents = 'none';
@@ -143,7 +148,9 @@ num.forEach(item => {
                 typeToDisplay(item.textContent.trim());
                 //remember operator
                 prevOperator = operator;
+                
                 break;
+
             case "finalized":
                 //change to entry mode
                 clearDisplay();
@@ -159,14 +166,19 @@ num.forEach(item => {
                 typeToDisplay(item.textContent.trim());
 
                 break;
+
             default:
                 //
                 state = "entry";
                 prevOperator = operator;
                 clearDisplay();
                 typeToDisplay(item.textContent.trim());
+                
                 break;
         }
+
+        //disable period if user typed a period
+        DisablePeriod();
 
         //Debugging
         vars = [
@@ -250,6 +262,10 @@ operators.forEach(item => {
                 break;
         }
 
+         //re-enable the decimal point
+        document.getElementById('period').style.pointerEvents = 'auto';
+        console.log("enabling");
+
         //Debugging
         vars = [
             ["prevOperator", prevOperator],
@@ -294,7 +310,10 @@ equals.addEventListener('click', () => {
             //
             break;
     }
-
+    
+    //re-enable the decimal point
+    document.getElementById('period').style.pointerEvents = 'auto';
+    console.log("enabling");
 });
 
 const period = document.querySelector("#period");
