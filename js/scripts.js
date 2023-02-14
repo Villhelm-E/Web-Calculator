@@ -290,24 +290,35 @@ equals.addEventListener('click', () => {
     operandB = display.textContent.trim();
     switch (state){
         case "entry":
-            //
+            //handle pressing enter without operator
             console.log("entry");
-            clearDisplay();
-            prevOperator = "";
-            typeToDisplay(operate(operator, operandA, operandB));
-            OpDisText.textContent = "";
-            operator = "";
-            state = "finalized";
-            console.log("display says " + display.textContent.trim());
-            operandA = display.textContent.trim();
-            console.log("operandA is " + operandA);
+            if (operandA == ""){
+                console.log("no math");
+                state = "finalized";
+            }
+            else{
+                console.log("math");
+                clearDisplay();
+                prevOperator = "";
+                typeToDisplay(operate(operator, operandA, operandB));
+                OpDisText.textContent = "";
+                operator = "";
+                state = "finalized";
+                console.log("display says " + display.textContent.trim());
+                operandA = display.textContent.trim();
+                console.log("operandA is " + operandA);
+            }
             break;
+
         case "finalized":
             //do nothing
             console.log("do nothing");
+            
             break;
+
         default:
             //
+            
             break;
     }
     
