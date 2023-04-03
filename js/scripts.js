@@ -35,7 +35,7 @@ function subtract(a, b) {
 
 //Takes two inputs, returns the product
 function multiply(a, b) {
-    return fullDisplay(+a * +b);
+    return fullDisplay(Math.round(+a * +b,DISPLAY_LENGTH-2)); //round to handle floating point rounding issues
 }
 
 //Takes two inputs, returns the quotient of a / b
@@ -70,23 +70,28 @@ function operate(operator, num1, num2) {
 function typeToDisplay(str) {
     //use case where user is entering brand new data
     console.log('%c TypeToDisplay()', 'color:#daba55');
-
-    if (display.textContent == "0" | state == "operating") {
-        display.textContent = str;
-        //handle numbers less than 1
-        if (display.textContent == ".") {
-            display.textContent = "0.";
-        }
+    if (display.textContent.length > DISPLAY_LENGTH){
+        console.log("too long");
+        display.textContent = "OVERFLOW";
     }
-    else{
-        display.textContent += str;
+    else {
+        if (display.textContent == "0" | state == "operating") {
+            display.textContent = str;
+            //handle numbers less than 1
+            if (display.textContent == ".") {
+                display.textContent = "0.";
+            }
+        }
+        else{
+            display.textContent += str;
+        }
     }
 
 }
 
-//resets the display to 0
+//resets the display to blank
 function clearDisplay(){
-    display.textContent = "0";
+    display.textContent = "";
 }
 
 //Rounds the output to fit within the display
@@ -110,8 +115,40 @@ function fullDisplay(num) {
 
 //removes the last character from the display and updates globals accordingly
 function backspace() {
-    //normal backspace when user is typing a number
+    //handle different behaviors
+    switch (state){
+        case "entry":
+            let oldText = display.textContent.trim();
+            let newText = oldText.substring(0, oldText.length -1);
+            if (newText.length >= 0) {
+                display.textContent = newText;
+            }
 
+            break;
+
+        case "operating":
+            //reset operator variables
+            OpDisText.textContent = "";
+            operator = "";
+            state = "entry";
+            operandA = "";
+        
+            break;
+        
+        default:
+            //behave like the clear button when finalized
+            //clear every variable and reset the display
+            operandA = 0;
+            operandB = 0;
+            operator = "";
+            prevOperator = "";
+            OpDisText.textContent = "";
+
+            clearDisplay();
+            console.clear();
+
+            break;
+    }
 }
 
 function DisablePeriod(){
