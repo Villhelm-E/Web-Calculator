@@ -70,9 +70,14 @@ function operate(operator, num1, num2) {
 function typeToDisplay(str) {
     //use case where user is entering brand new data
     console.log('%c TypeToDisplay()', 'color:#daba55');
-    if (display.textContent.length > DISPLAY_LENGTH){
+
+    if (str.toString().length > DISPLAY_LENGTH){
         console.log("too long");
         display.textContent = "OVERFLOW";
+        
+        //disable operators so user can't do math on overflow
+        disableOperators();
+
     }
     else {
         if (display.textContent == "0" | state == "operating") {
@@ -162,6 +167,25 @@ function DisablePeriod(){
         document.getElementById('period').style.pointerEvents = 'auto';
         console.log("enabling");
     }
+}
+
+//Clears variables and disables operators, used when overflow
+function disableOperators(){
+    console.log("running disableOperators function");
+    
+    //buttons
+    const ops = document.querySelectorAll(".operation");
+    ops.forEach(ops => {ops.disabled = true});
+    
+    //variables
+    OpDisText.textContent = "";
+    state = "finalized";
+    operandA = "";
+    operandB = "";
+    operator = "";
+    prevOperator = "";
+    
+    console.log("Disabling operators");
 }
 
 
@@ -378,6 +402,12 @@ clearBtn.addEventListener('click', () => {
 
     clearDisplay();
     console.clear();
+
+    //Enable operators
+    console.log("enabling operators");
+    
+    const ops = document.querySelectorAll(".operation");
+    ops.forEach(ops => {ops.disabled = false});
 });
 
 const backBtn = document.querySelector("#backspace");
