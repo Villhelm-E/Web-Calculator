@@ -415,3 +415,92 @@ backBtn.addEventListener('click', () => {
     //backspace a character
     backspace();
 });
+
+//Keyboard math
+document.addEventListener('keyup', (event) => {
+        var name = event.key;
+        var code = event.code;
+        // Alert the key name and key code on keydown
+        //alert(`Key pressed ${name} \r\n Key code value: ${code}`);
+
+        if (event.defaultPrevented){
+            return;
+        }
+        else if ((name === "+" && code === "Equal") || code === "NumpadAdd"){
+            //handle addition
+            document.getElementById("add").click();
+        }
+        else if (name === "*" || name === "x" || name === "X"){
+            //handle multiplication
+            document.getElementById("multiply").click();
+        }
+        else if (code === "Minus" || code === "NumpadSubtract") {
+            //handle subtraction
+            document.getElementById("subtract").click();
+        }
+        else if (code === "Slash" || code === "NumpadDivide" || code === "Backslash" || code === "IntlBackslash") {
+            //handle division
+            document.getElementById("divide").click();
+        }
+        else if (code === "Equal" || code === "Enter" || code === "NumpadEnter" | code === "NumpadEqual") {
+            //handle equal
+            document.getElementById("equals").click();
+        }
+        else if (code === "Period" || code === "NumpadDecimal") {
+            //handle period
+            document.getElementById("period").click();
+        }
+        else if (code === "Backspace" || code === "Delete" || code === "NumpadBackspace") {
+            //handle backspace
+            document.getElementById("backspace").click();
+        }
+        else if (code === "KeyC") {
+            //handle clear
+            document.getElementById("clear").click();
+        }
+        else if (code === "Digit0" || code === "Numpad0") {
+            //handle zero
+            document.getElementById("zero").click();
+        }
+        else if (code === "Digit1" || code === "Numpad1") {
+            //handle one
+            document.getElementById("one").click();
+        }
+        else if (code === "Digit2" || code === "Numpad2") {
+            //handle two
+            document.getElementById("two").click();
+        }
+        else if (code === "Digit3" || code === "Numpad3") {
+            //handle three
+            document.getElementById("three").click();
+        }
+        else if (code === "Digit4" || code === "Numpad4") {
+            //handle four
+            document.getElementById("four").click();
+        }
+        else if (code === "Digit5" || code === "Numpad5") {
+            //handle five
+            document.getElementById("five").click();
+        }
+        else if (code === "Digit6" || code === "Numpad6") {
+            //handle six
+            document.getElementById("six").click();
+        }
+        else if (code === "Digit7" || code === "Numpad7") {
+            //handle seven
+            document.getElementById("seven").click();
+        }
+        else if (code === "Digit8" || code === "Numpad8") {
+            //handle eight
+            document.getElementById("eight").click();
+        }
+        else if (code === "Digit9" || code === "Numpad9") {
+            //handle nine
+            document.getElementById("nine").click();
+        }
+
+    }, false);
+
+    //numbers: "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0", "Numpad0", "Numpad1", "Numpad2", "Numpad3", "Numpad4", "Numpad5", "Numpad6", "Numpad7", "Numpad8", "Numpad9"
+    //operators: "Minus", "Equal", "Period", "Slash", "Enter", "NumpadAdd", "NumpadDecimal", "NumpadDivide", "NumpadEnter", "NumpadEqual", "NumpadStar", "NumpadSubtract"
+    //other: "Backspace", "Backslash", "IntlBackslash", "Delete", "NumpadBackspace"
