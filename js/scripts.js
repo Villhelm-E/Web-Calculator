@@ -316,6 +316,7 @@ operators.forEach(item => {
                 operator = item.id;
                 OpDisText.textContent = item.textContent.trim();
                 state = "operating";
+                operandA = display.textContent.trim();
                 break;
             default:
                 //do nothing
