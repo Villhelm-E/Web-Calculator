@@ -71,13 +71,21 @@ function typeToDisplay(str) {
     //use case where user is entering brand new data
     console.log('%c TypeToDisplay()', 'color:#daba55');
 
+    //handle number longer than display length
     if (str.toString().length > DISPLAY_LENGTH){
         console.log("too long");
-        display.textContent = "OVERFLOW";
         
-        //disable operators so user can't do math on overflow
-        disableOperators();
-
+        //handle math with decimals
+        if (str.toString().includes(".")) {
+            console.log("decimal");
+            display.textContent = str.toString().slice(0,DISPLAY_LENGTH);
+        }
+        else {
+            display.textContent = "OVERFLOW";
+        
+            //disable operators so user can't do math on overflow
+            disableOperators();
+        }
     }
     else {
         if (display.textContent == "0" | state == "operating") {
