@@ -35,7 +35,7 @@ function subtract(a, b) {
 
 //Takes two inputs, returns the product
 function multiply(a, b) {
-    return fullDisplay(Math.round(+a * +b,DISPLAY_LENGTH-2)); //round to handle floating point rounding issues
+    return fullDisplay(+a * +b);
 }
 
 //Takes two inputs, returns the quotient of a / b
@@ -59,6 +59,7 @@ function operate(operator, num1, num2) {
             return subtract(num1, num2);
         case "multiply":
             console.log(num1 + "*" + num2);
+            console.log(multiply(num1, num2));
             return multiply(num1, num2);
         case "divide":
             console.log(num1 + "/" + num2);
@@ -87,6 +88,7 @@ function typeToDisplay(str) {
             disableOperators();
         }
     }
+    //entry and operating modes ends up over here one characer at a time
     else {
         if (display.textContent == "0" | state == "operating") {
             display.textContent = str;
@@ -95,8 +97,20 @@ function typeToDisplay(str) {
                 display.textContent = "0.";
             }
         }
+        //
         else{
-            display.textContent += str;
+            let oldDisplay = display.textContent.trim()
+            let newDisplay = oldDisplay += str;
+            if (newDisplay.length > DISPLAY_LENGTH){
+                //disable numbers
+                console.log("disabling numbers");
+    
+                const nums = document.querySelectorAll(".number");
+                nums.forEach(nums => {nums.disabled = true});
+            }
+            else {
+                display.textContent += str;
+            }
         }
     }
 
@@ -271,6 +285,12 @@ operators.forEach(item => {
     item.addEventListener('click', () => {
         //Log
         console.log('%c .OPERATION', 'color:#bada55');
+
+        //Enable numbers
+        console.log("enabling numbers");
+    
+        const nums = document.querySelectorAll(".number");
+        nums.forEach(nums => {nums.disabled = false});
 
         switch (state){
             case "entry":
